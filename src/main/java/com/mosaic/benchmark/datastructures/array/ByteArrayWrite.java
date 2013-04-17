@@ -1,30 +1,29 @@
 package com.mosaic.benchmark.datastructures.array;
 
 import com.mosaic.benchmark.Benchmark;
+import com.mosaic.benchmark.BenchmarkSizing;
 
 /**
  *
  */
-public class UncontendedByteArrayWrite extends Benchmark {
+public class ByteArrayWrite extends Benchmark {
 
     private int arraySize;
     private byte[] array;
 
-    public UncontendedByteArrayWrite( int arraySize ) {
+    public ByteArrayWrite() {
         super(
             "array writes", // units
-            arraySize, // number of ops per call to invoke()
+            BenchmarkSizing.InMemory,
             "How fast is writing to a byte array?", // question
             "Loops sequentially over every element in a byte array, writing a constant to each position as it goes" // description
         );
 
-        this.arraySize = arraySize;
+        this.arraySize = getBenchmarkSizing().numOpsPerTest;
     }
 
     @Override
     public void setUp() {
-        super.setUp();
-
         array = new byte[arraySize];
     }
 
@@ -40,7 +39,7 @@ public class UncontendedByteArrayWrite extends Benchmark {
     }
 
     @Override
-    protected long invoke() {
+    protected long runSingleIteration() {
         long sum = 0;
 
         for ( int j=0; j<arraySize; j++ ) {

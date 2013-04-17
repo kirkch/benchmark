@@ -5,38 +5,39 @@ package com.mosaic.benchmark;
  */
 public abstract class Benchmark {
 
-    private String units;
-    private long   opsPerCall;
-    private String question;
-    private String description;
+    private String          units;
+    private BenchmarkSizing sizing;
+    private String          question;
+    private String          description;
 
-    public Benchmark( String units, long opsPerCall, String question, String description ) {
+    public Benchmark( String units, BenchmarkSizing sizing, String question, String description ) {
         this.units       = units;
-        this.opsPerCall  = opsPerCall;
+        this.sizing      = sizing;
         this.question    = question;
         this.description = description;
     }
 
 
-    public void setUp() {
+    public void setUp() throws Throwable {
 
     }
 
-    public void tearDown() {
+    public void tearDown() throws Throwable {
 
     }
 
-    public final BenchmarkResult invoke( int targetCount ) {
+    public final BenchmarkResult invoke() throws Throwable {
+        int targetCount = sizing.numIterationsOfTest;
         long sum = 0;
         for ( int i=0; i<targetCount; i++ ) {
-            sum += invoke();
+            sum += runSingleIteration();
         }
 
-        return new BenchmarkResult( ((long)targetCount)*opsPerCall, units, sum );
+        return new BenchmarkResult( ((long) targetCount)*sizing.numOpsPerTest, units, sum );
     }
 
 
-    protected abstract long invoke();
+    protected abstract long runSingleIteration() throws Throwable;
 
 
 
@@ -57,4 +58,7 @@ public abstract class Benchmark {
         return description;
     }
 
+    public BenchmarkSizing getBenchmarkSizing() {
+        return sizing;
+    }
 }

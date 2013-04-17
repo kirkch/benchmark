@@ -1,30 +1,29 @@
 package com.mosaic.benchmark.datastructures.array;
 
 import com.mosaic.benchmark.Benchmark;
+import com.mosaic.benchmark.BenchmarkSizing;
 
 /**
  *
  */
-public class UncontendedByteArrayRead extends Benchmark {
+public class ByteArrayRead extends Benchmark {
 
     private int arraySize;
     private byte[] array;
 
-    public UncontendedByteArrayRead( int arraySize ) {
+    public ByteArrayRead() {
         super(
             "array reads", // units
-            arraySize, // number of ops per call to invoke()
+            BenchmarkSizing.InMemory,
             "How fast is reading from a byte array?", // question
             "Loops sequentially over every element in a byte array, summing its value so that the read is not optimised out" // description
         );
 
-        this.arraySize = arraySize;
+        this.arraySize = getBenchmarkSizing().numOpsPerTest;
     }
 
     @Override
     public void setUp() {
-        super.setUp();
-
         array = new byte[arraySize];
     }
 
@@ -34,7 +33,7 @@ public class UncontendedByteArrayRead extends Benchmark {
     }
 
     @Override
-    protected long invoke() {
+    protected long runSingleIteration() {
         long sum = 0;
 
         for ( int j=0; j<arraySize; j++ ) {
