@@ -35,7 +35,7 @@ public class FileInputStreamArrayBatchRead extends Benchmark {
 //  258    223813.79
 //  512    383877.16
 // 1024    607164.54
-// 4068    933706.82
+// 4068    933706.82                (<--- when disk cache is full ... 222370.47 bytes/ms when its not)
 // 8128   1067235.86 bytes/ms
 //16384   1022494.89
 

@@ -1,6 +1,7 @@
 package com.mosaic.benchmark;
 
 import com.mosaic.benchmark.io.FileInputStreamArrayBatchRead;
+import com.mosaic.benchmark.io.FileInputStreamByteBufferRead;
 
 import java.util.Arrays;
 import java.util.List;
@@ -24,18 +25,22 @@ public class Main {
 //        new ByteBufferWrite(numItterations),   // 13.5
 //        new DirectByteBufferWrite(numItterations)   // 1.5
 
+        new FileInputStreamArrayBatchRead(4068),
+        new FileInputStreamArrayBatchRead(4068),
+        new FileInputStreamByteBufferRead(4068),
+        new FileInputStreamByteBufferRead(4068)
+
 //        new FileInputStreamReadPerByte(),
 //        new RandomAccessFileReadPerByte()
 //        new BufferedFileStreamPerByte()
-        new FileInputStreamArrayBatchRead(128),
-        new FileInputStreamArrayBatchRead(258),
-        new FileInputStreamArrayBatchRead(512),
-        new FileInputStreamArrayBatchRead(1024),
-        new FileInputStreamArrayBatchRead(4068),
-        new FileInputStreamArrayBatchRead(8128),
-        new FileInputStreamArrayBatchRead(16384)
+//        new FileInputStreamArrayBatchRead(128),
+//        new FileInputStreamArrayBatchRead(258),
+//        new FileInputStreamArrayBatchRead(512),
+//        new FileInputStreamArrayBatchRead(1024),
+//        new FileInputStreamArrayBatchRead(4068)
+//        new FileInputStreamArrayBatchRead(8128),
+//        new FileInputStreamArrayBatchRead(16384)
     );
-
 
 
     private static MeasureJitter measureJitterThread = new MeasureJitter();
@@ -72,7 +77,7 @@ public class Main {
 
         System.out.println( "starting benchmarks" );
 
-
+//Thread.sleep(60000);
         runBenchmark( b, RunMode.NormalRun );
         runBenchmark( b, RunMode.NormalRun );
         runBenchmark( b, RunMode.NormalRun );
@@ -99,10 +104,9 @@ public class Main {
             double rateNS = ((double)numOps) / durationNanos;
 
 
-            String prefix = runMode.isWarmUp ? "[WARMUP] " : "";
-            prefix = "["+b.getName()+"]: ";
+            String isWarmUpStr = runMode.isWarmUp ? "WARMUP " : "";
+            String prefix = "["+isWarmUpStr + b.getName()+"]: ";
 
-//            System.out.println( prefix + rateNS + " " + result.getUnits() + "/ns  [maxJitter="+maxJitterMillis+"ms totalTestRun="+durationMillis+"ms]" );
             if ( rateNS < 10.0 ) {
                 System.out.println( String.format("%s%.2f %s/ms  [maxJitter=%.3fms totalTestRun=%.3fms]", prefix,rateMS,result.getUnits(),maxJitterMillis,durationMillis) );
             } else {

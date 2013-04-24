@@ -37,7 +37,7 @@ public class FileInputStreamByteBufferRead extends Benchmark {
 //  258    168548.79
 //  512    311720.70
 // 1024    536193.03
-// 4068    897666.07
+// 4068    897666.07       (<--- when disk cache is full ... 173792.14 bytes/ms when its not)  or is it 352733.69 :)
 // 8128   1030927.84 bytes/ms
 //16384   1094091.90
 
