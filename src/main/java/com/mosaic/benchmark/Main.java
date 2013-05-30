@@ -1,5 +1,10 @@
 package com.mosaic.benchmark;
 
+import com.mosaic.benchmark.datastructures.array.ByteArrayRead;
+import com.mosaic.benchmark.datastructures.array.ByteArrayWrite;
+import com.mosaic.benchmark.datastructures.array.CharArrayRead;
+import com.mosaic.benchmark.datastructures.array.CharArrayToCharArrayCopyThenRead;
+import com.mosaic.benchmark.datastructures.buffers.*;
 import com.mosaic.benchmark.io.FileInputStreamArrayBatchRead;
 import com.mosaic.benchmark.io.FileInputStreamByteBufferRead;
 
@@ -15,20 +20,24 @@ import java.util.concurrent.atomic.AtomicLong;
  * -XX:+PrintCompilation (very slight cost)
  */
 public class Main {
-
+                                 // super + freezer
     private static List<Benchmark> benchmarks = Arrays.<Benchmark>asList(
-//        new ByteArrayRead(numItterations),    // 2.46
-//        new ByteBufferRead(numItterations),     // 1.9
+//        new ByteArrayRead(),    // 3.4 /ns
+//        new ByteBufferRead(),     // 2.9 /ns
+//        new CharArrayRead(),     // 3.4 /ns
+//        new CharBufferRead(),     // 3.4 /ns
+        new CharBufferToCharArrayCopyThenRead(),    // 2.5ns
+        new CharArrayToCharArrayCopyThenRead()      // 2.5ns
 //        new DirectByteBufferRead(numItterations),     // 1.55
 //
-//        new ByteArrayWrite(numItterations),   // 12.3
-//        new ByteBufferWrite(numItterations),   // 13.5
-//        new DirectByteBufferWrite(numItterations)   // 1.5
+//        new ByteArrayWrite(),         // 12.3   34.5
+//        new ByteBufferWrite(),        // 13.5   18.5
+//        new DirectByteBufferWrite()   // 1.5     2.3
 
-        new FileInputStreamArrayBatchRead(4068),
-        new FileInputStreamArrayBatchRead(4068),
-        new FileInputStreamByteBufferRead(4068),
-        new FileInputStreamByteBufferRead(4068)
+//        new FileInputStreamArrayBatchRead(4068),
+//        new FileInputStreamArrayBatchRead(4068),
+//        new FileInputStreamByteBufferRead(4068),
+//        new FileInputStreamByteBufferRead(4068)
 
 //        new FileInputStreamReadPerByte(),
 //        new RandomAccessFileReadPerByte()
